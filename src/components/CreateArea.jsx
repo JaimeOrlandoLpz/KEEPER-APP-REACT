@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 
 function CreateArea(props) {
-  const [fullNote, setFullNote] = useState({ title: "", content: "" });
+  const [note, setNote] = useState({
+    title: "",
+    content: ""
+  });
 
-  function onChange(e) {
-    const { name, value } = e.target;
+  function onChange(event) {
+    const { name, value } = event.target;
     switch (name) {
       case "title":
-        setFullNote((prev) => {
+        setNote((prev) => {
           return {
             title: value,
             content: prev.content
@@ -16,7 +19,8 @@ function CreateArea(props) {
         break;
 
       case "content":
-        setFullNote((prev) => {
+        setNote((prev) => {
+          console.log("here");
           return {
             title: prev.title,
             content: value
@@ -28,27 +32,31 @@ function CreateArea(props) {
         break;
     }
   }
-
   return (
     <div>
       <form>
         <input
           name="title"
           placeholder="Title"
-          value={fullNote.title}
           onChange={onChange}
+          value={note.title}
         />
         <textarea
           name="content"
           placeholder="Take a note..."
           rows="3"
-          value={fullNote.content}
           onChange={onChange}
+          value={note.content}
         />
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            props.addNote(fullNote);
+          onClick={(event) => {
+            event.preventDefault();
+            console.log(note);
+            props.add(note);
+            setNote({
+              title: "",
+              content: ""
+            });
           }}
         >
           Add
